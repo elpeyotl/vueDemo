@@ -1,0 +1,32 @@
+.custom-collapse {
+    width: 100%;
+    border: 1px solid lightblue;
+    margin-bottom: 10px;
+}
+
+.custom-collapse__header {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 0 10px;
+}
+
+.custom-collapse__content {
+    display: block;
+    height: 100%;
+    padding: 0 10px 10px 10px;
+}
+
+.alert {
+    transition: background-color 0.25s ease;
+}
+
+.overlay {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    position: fixed;
+    z-index: 1000;
+    top:0;
+}

@@ -1,0 +1,1 @@
+{"version":3,"sources":["css/animations.css"],"names":[],"mappings":"AAAA;AACA;AACA;AACA;AACA;AACA;AACA;AACA","file":"animations.f3d4ade0.css","sourceRoot":"..","sourcesContent":[".fade-enter-active, .fade-leave-active {\n    transition: opacity .5s;\n  }\n  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {\n    opacity: 0;\n  }\n\n  "]}

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue.js Demo</title>
+    <link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/animations.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+
+    
+    <div id="vue-overlay" >
+        <overlay></overlay>
+    </div>
+
+    <div class="container">
+        <h1 class="mt-5">Vue JS Demos</h1>
+        <h2>This page should get a first impression of Vue.js</h2>
+        <br>
+
+        <div id="databinding">
+            <h5>Data Binding</h5>
+            <div class="input-group mb-3">
+                <input v-model="username" @keydown.esc="username = ''" type="text" class="form-control" placeholder="Insert your Name" aria-label="" aria-describedby="basic-addon1">
+                    <div class="input-group-append" v-if="username">
+                            <button @click="username = ''" class="btn btn-outline-primary" type="button">Reset</button>
+                    </div>
+            </div>
+                    
+            <div v-if="username">Your Name is: {{username}}</div>
+            <div v-if="username">Your Name has {{username.length}} characters</div>
+            <div v-if="username.length > 8" class="text-primary">Wow! Thats a really long name!</div>
+        </div>
+
+
+
+
+        <div id="todo" class="my-5">
+            <h5>Working with arrays</h5>
+            <span class="badge badge-primary">{{sortedList.length}} Items</span>
+            <ul v-if="sortedList.length > 0" class="list-group">
+                <transition-group name="fade">
+                    <li v-for="(item, index) in sortedList" :key="item" class="list-group-item">
+                        {{item}} 
+                        <button @click="removeItem(index)" class="float-right btn btn-sm btn-danger">Remove</button>
+                    </li>
+                </transition-group>
+            </ul>
+
+
+            <div class="input-group my-3">
+                <input v-model="itemToAdd" @keyup.enter="addItem(itemToAdd)" type="text" class="form-control" placeholder="Add more items" aria-label="" aria-describedby="basic-addon1">
+                <div class="input-group-append">
+                    <button @click="addItem(itemToAdd)"  :disabled="itemToAdd.length === 0" class="btn btn-outline-success" type="button">Add</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="component-examples">
+            <h5>Working with components</h5>
+            <button-counter :important="true"></button-counter>
+            <button-counter :start-value="100"></button-counter>
+        </div>
+
+
+        <div id="collapse-example" class="my-5">
+            <h5>Example using Slots</h5>
+           
+            <custom-collapse title="Hold my sword!">
+                Lorem ipsum dolor <br>sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+            </custom-collapse>
+
+            <custom-collapse title="winter is coming">
+                Another random text...in the slot!
+            </custom-collapse>
+        </div>
+
+        <div id="dynamic-styles" class="my-5">
+            <h5>Dynamic Styles</h5>
+
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">Select color</label>
+                <select v-model="color" class="form-control" id="exampleFormControlSelect1">
+                    <option v-for="col in colors" :key="col">{{col}}</option>
+                </select>
+            </div>
+
+            <div class="alert" :class="'alert-' + color" role="alert">
+                Select your style with the dropdown
+            </div>
+
+            <modal-button></modal-button>
+        </div>
+
+
+     
+
+
+
+    </div>
+  
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vuex@3.1.1/dist/vuex.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.js"></script>
+    <script src="js/components/custom-collapse.js"></script>
+    <script src="js/components/button.js"></script>
+    <script src="js/components/modal-button.js"></script>
+    <script src="js/components/overlay.js"></script>
+    <script>
+
+
+        const store = new Vuex.Store({
+            state: {
+            overlay: false
+            },
+            mutations: {
+            toggleOverlay (state) {
+                state.overlay = !state.overlay
+            }
+            }
+        })
+
+        new Vue({
+        el: '#databinding',
+        data: {
+            username: '',
+            }
+        })
+
+        new Vue({
+            el: '#todo',
+            data: {
+                    items: ['take a shower', 'clean the house', 'feed the pets'],
+                    itemToAdd: ''
+                },
+            computed: {
+                sortedList () {
+                    return this.items.sort()
+                }
+            },
+            methods: {
+                removeItem (index) {
+                    this.items.splice(index,1)
+                },
+                addItem (item) {
+                    this.items.push(item)
+                    this.itemToAdd = ''
+                }
+            }
+        })
+
+        new Vue({
+        el: '#component-examples',
+        data: {
+            }
+        })
+
+        new Vue({
+        el: '#collapse-example',
+        data: {
+                collapsed: false,
+            }
+        })
+
+        new Vue({
+        el: '#dynamic-styles',
+        data: {
+                color: 'primary',
+                colors: ['primary', 'success', 'warning', 'info', 'danger']
+            }
+        })
+
+        new Vue({
+            el: '#vue-overlay',
+            data: {},
+        })
+
+    </script>
+</body>
+</html>
